@@ -1,7 +1,34 @@
-# base-project
+# Banking System
 
-This iteration, we created User objects, we linked it with Bash code, worked on functions to add money to accounts, updated test cases 
+**Members:** Ethan Moses, Fortuna Kadima, Elise O'Keefe, Klein Morrow
 
-#iteration-1
+## Iteration 1
 
-This iteration, we created the PersonalCapital object that extends to either Assets or Liabilities. We also created the ability for user to take out loans, and updated Menu. We also added file persistence to store accounts and users.
+We implemented the following features:
+
+- A bash script that compiles and runs all Java classes
+- A user object that allows for a variety of actions and stores personal data
+- An account object that allows for a variety of actions and stores financial data
+  - Methods that allow for manipulation of financials
+
+Next iteration, we plan to implement the following features:
+
+- Classes of assets and liabilities
+- A user could take out loans
+- Menu interfaces with all other options
+- A file persistence database
+
+## Iteration 2
+
+We implemented the following features:
+
+- Classes of assets and liabilities, with a parent of PersonalCapital
+- A loan class
+- Menu interfaces with all other options
+- A file persistence feature, to store accounts and users
+  
+Next iteration, we plan to implement the following features:
+
+- A user should be able to trade stocks
+- User can perform administrative tasks on their account
+- A bank should store databases of users and PersonalCapital objects
