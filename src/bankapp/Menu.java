@@ -1,7 +1,7 @@
 package bankapp;
 
+import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -13,6 +13,7 @@ public class Menu {
 	private User currentUser;
 	private Boolean firstIteration = true;
 	private List<Integer> accountIDs;
+	private List<String> contextOptions;
 	
 	private BankDatabase database;
 
@@ -25,7 +26,22 @@ public class Menu {
 		this.caretaker = caretaker;
 		this.database = new BankDatabase("bank");
 		this.accountIDs = new LinkedList<Integer>();
+		initializeContextOptions();
 	}
+
+	private void initializeContextOptions() {
+        contextOptions = new LinkedList<>();
+        contextOptions.add("Banking");
+        contextOptions.add("Finances");
+        contextOptions.add("Investments");
+        contextOptions.add("Loans");
+        contextOptions.add("Mortgages");
+        contextOptions.add("Retirement");
+        contextOptions.add("Savings");
+        contextOptions.add("Budgeting");
+        contextOptions.add("Credit Scores");
+        contextOptions.add("Financial Advice");
+    }
 
 	// not tested
 	public static void main(String[] args) {
@@ -45,12 +61,12 @@ public class Menu {
 	private void getExecuteOptions() {
 		displayingOptions();
 		int option = getOption();
-		while (option < 1 || option > 10) {
+		while (option < 1 || option > 11) {
 			System.out.println("Invalid option!");
 			displayingOptions();
 			option = getOption();
 		}
-		if (option == 10) {
+		if (option == 11) {
 			System.out.println("Exiting...");
 			database.saveBank();
 			System.exit(0);
@@ -113,7 +129,7 @@ public class Menu {
 	public void displayingOptions() {
 		List<String> options = Arrays.asList("Choose from the following options: ", "1. Deposit", "2. Withdraw",
 				"3. Transfer", "4. Check Balance", "5. Show Account Information", "6. Switch Account",
-				"7. Create Account", "8. View Assets & Liabilities", "9. Delete Account", "10. Exit");
+				"7. Create Account", "8. View Assets & Liabilities", "9. Delete Account", "10. Talk to a Friend", "11. Exit");
 		for (String option : options) {
 			System.out.println(option);
 		}
@@ -148,6 +164,9 @@ public class Menu {
 			break;
 		case 9:
 			menuDeleteAccount();
+			break;
+		case 10:
+			talkToFriend();
 			break;
 		}
 	}
@@ -320,6 +339,30 @@ public class Menu {
 		currentUser.removeAsset(toRemove);
 
 	}
+
+	public void talkToFriend() {
+		System.out.println("Select a context to discuss with your friend:");
+        for (int i = 0; i < contextOptions.size(); i++) {
+            System.out.println((i + 1) + ". " + contextOptions.get(i));
+        }
+        int contextChoice = getOption();
+        while (contextChoice < 1 || contextChoice > contextOptions.size()) {
+            System.out.println("Invalid context choice!");
+            contextChoice = getOption();
+        }
+        String selectedContext = contextOptions.get(contextChoice - 1);
+        System.out.println("You have selected the context: " + selectedContext);
+        System.out.println("Enter your message to send to your friend:");
+        String userInput = getString();
+        String response;
+		try {
+			response = LLMInterface.sendQueryToLLM(userInput, selectedContext);
+			System.out.println("Friend's response: " + response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        
+    }
 	
 	public int getValidAccountNumber() {
 		accountIDs.clear();
@@ -598,6 +641,8 @@ public class Menu {
 
 		// Display the monthly payment to the user
 		System.out.printf("Your monthly loan payment is: $%.2f%n", monthlyPayment);
+		
+		scanner.close();
 
 		return monthlyPayment;
 	}
