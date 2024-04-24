@@ -32,3 +32,12 @@ Next iteration, we plan to implement the following features:
 - A user should be able to trade stocks
 - User can perform administrative tasks on their account
 - A bank should store databases of users and PersonalCapital objects
+
+## Iteration 3
+
+We implemented the following features:
+
+- A user has the ability to view their assets and liabilities
+- A user can have a mortgage and retirement fund
+- A user can transfer funds between themselves and other users
+- A user can have their data stored within a bank
